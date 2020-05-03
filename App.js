@@ -1,21 +1,50 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { FlatList, ActivityIndicator, Text, View } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>K-KILL!</Text>
-      <Text>ИДИ НАХУЙ</Text>
+export default class FetchExample extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { isLoading: true };
+  }
 
-    </View>
-  );
+  componentDidMount() {
+    return fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json')
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState(
+          {
+            isLoading: false,
+            dataSource: responseJson,
+          },
+          function() {}
+        );
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, padding: 20 }}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+
+    return (
+      <View style={{ flex: 1, paddingTop: 20 }}>
+        <FlatList
+          data={this.state.dataSource}
+          renderItem={({ item }) => (
+            <Text>
+              {item.txt}, {item.rate}
+            </Text>
+          )}
+          keyExtractor={({ id }, index) => id}
+        />
+      </View>
+    );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#098',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
