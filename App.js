@@ -5,11 +5,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>K-KILL!</Text>
-      <Text>Контора снова в деле</Text>
-      <Text>Контора снова в деле</Text>
-      <Text>Контора снова в деле</Text>
-      <Text>Контора снова в деле</Text>
-      <Text>Контора снова в деле</Text>
+      <Text>ИДИ НАХУЙ</Text>
 
     </View>
   );
